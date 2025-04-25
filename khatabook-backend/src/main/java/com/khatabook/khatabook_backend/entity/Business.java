@@ -37,13 +37,11 @@ public class Business {
     private User user;
 
     @OneToMany(mappedBy = "business")
-    private List<Customer> customers;
+    private List<BusinessCustomer> businessCustomers;
 
-    @OneToMany(mappedBy = "business")
-    private List<Supplier> suppliers;
 
-    @OneToMany(mappedBy = "business")
-    private List<Transaction> transactions;
+    // @OneToMany(mappedBy = "business")
+    // private List<Transaction> transactions;
 
     
 }

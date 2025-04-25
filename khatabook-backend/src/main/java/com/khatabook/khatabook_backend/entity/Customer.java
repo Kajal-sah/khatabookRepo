@@ -35,12 +35,10 @@ public class Customer {
     private String address;
     private Double balance;
 
-     @ManyToOne
-    @JoinColumn(name = "business_id")
-    private Business business;
+    @OneToMany
+    @JoinColumn(name = "id")
+    private List<BusinessCustomer> businessCustomers;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Transaction> transactions;
-
+   
     
 }

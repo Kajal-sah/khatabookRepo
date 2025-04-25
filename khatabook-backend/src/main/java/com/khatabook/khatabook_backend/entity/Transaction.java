@@ -1,9 +1,12 @@
 package com.khatabook.khatabook_backend.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,28 +24,27 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transaction")
+
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="transaction_id")
+    @Column(name = "transaction_id")
     private Long transactionId;
 
     private Double amount;
-    private String transactionType;
-    private LocalDate transactionDate;
+
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
+
+    private LocalDateTime transactionDate;
     private String description;
 
+    
     @ManyToOne
-    @JoinColumn(name = "business_id")
-    private Business business;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = true)
-    private Customer customer;
+    @JoinColumn(name = "id")
+    private BusinessCustomer businessCustomer;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = true)
     private Supplier supplier;
-
-   
 }

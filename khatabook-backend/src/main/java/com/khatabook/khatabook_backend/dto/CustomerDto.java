@@ -16,14 +16,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CustomerDto {
 
-     private Long customerId;
-    
+    //private Long customerId;
     private String name;
     private String email;
     private String phoneNumber;
     private String address;
-    private Double balance;
-    private Business business;
-    private List<Transaction> transactions;
+    //private Double balance;
+    //private Business business;
+    //private List<Transaction> transactions;
     
 }
