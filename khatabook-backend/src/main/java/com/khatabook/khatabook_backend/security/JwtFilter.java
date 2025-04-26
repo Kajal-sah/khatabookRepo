@@ -1,5 +1,6 @@
 package com.khatabook.khatabook_backend.security;
 
+import com.khatabook.khatabook_backend.service.Impl.CustomUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,8 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.khatabook.khatabook_backend.service.Impl.CustomUserDetailsService;
 
 import java.io.IOException;
 
@@ -38,15 +37,15 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        String username = null;
+        String email = null;
         String jwt = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
             try {
-                username = jwtUtil.extractUsername(jwt);
+                email = jwtUtil.extractEmail(jwt);
                 logger.info("🔐 JWT Token received: {}", jwt);
-                logger.info("👤 Username extracted from token: {}", username);
+                logger.info("👤 Email extracted from token: {}", email);
             } catch (ExpiredJwtException e) {
                 logger.warn("⚠️ Token expired: {}", e.getMessage());
             } catch (Exception e) {
@@ -54,9 +53,9 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email); // Loading by email
                 if (jwtUtil.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken token =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -64,16 +63,16 @@ public class JwtFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(token);
                     logger.info("✅ Authenticated user: {}", userDetails.getUsername());
                 } else {
-                    logger.warn("⚠️ Invalid JWT token for user: {}", username);
+                    logger.warn("⚠️ Invalid JWT token for email: {}", email);
                 }
             } catch (Exception e) {
                 logger.error("❌ Error authenticating user: {}", e.getMessage());
             }
         } else {
-            if (username == null) {
-                logger.warn("⚠️ No username extracted from token.");
+            if (email == null) {
+                logger.warn("⚠️ No email extracted from token.");
             } else {
-                logger.debug("ℹ️ User already authenticated: {}", username);
+                logger.debug("ℹ️ User already authenticated: {}", email);
             }
         }
 

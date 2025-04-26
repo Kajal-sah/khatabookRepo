@@ -63,5 +63,14 @@ public class CustomerServiceImpl implements CustomerService {
         newCustomer.setPhoneNumber(customerDto.getPhoneNumber());
         newCustomer.setAddress(customerDto.getAddress());
         return customerRepository.save(newCustomer);
+
+
+    }
+
+
+    @Override
+    public Double getCustomerBalanceForBusiness(Long businessId, Long customerId) {
+        Double balance = businessCustomerRepository.findBalanceByBusinessIdAndCustomerId(businessId, customerId);
+        return balance != null ? balance : 0.0;
     }
 }

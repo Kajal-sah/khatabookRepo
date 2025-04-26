@@ -54,11 +54,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse login(AuthRequest authRequest) {
          //  Authenticate the user
         authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
         );
 
         //  Load user details after successful authentication
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
 
         // Generate JWT token
         final String jwt = jwtUtil.generateToken(userDetails);

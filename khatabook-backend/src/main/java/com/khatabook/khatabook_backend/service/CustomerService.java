@@ -10,4 +10,6 @@ public interface CustomerService {
     BusinessCustomerDto addCustomerToBusiness(Long businessId, CustomerDto customerDto);
 
     List<CustomerDto> getCustomersByBusinessId(Long businessId);
+
+    Double getCustomerBalanceForBusiness(Long businessId, Long customerId);
 }

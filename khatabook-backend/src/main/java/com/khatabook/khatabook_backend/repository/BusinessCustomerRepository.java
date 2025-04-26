@@ -20,5 +20,8 @@ public interface BusinessCustomerRepository extends JpaRepository<BusinessCustom
     
     List<BusinessCustomer> findByCustomer(Customer customer);
 
+    @Query("SELECT bc.balance FROM BusinessCustomer bc WHERE bc.business.businessId = :businessId AND bc.customer.customerId = :customerId")
+    Double findBalanceByBusinessIdAndCustomerId(@Param("businessId") Long businessId, @Param("customerId") Long customerId);
+
     
 }

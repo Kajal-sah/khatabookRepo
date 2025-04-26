@@ -39,4 +39,6 @@ public class CustomerController {
         List<CustomerDto> customers = customerService.getCustomersByBusinessId(businessId);
         return ResponseEntity.ok(customers);
     }
+
+   
 }
